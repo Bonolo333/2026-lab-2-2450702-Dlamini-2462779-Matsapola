@@ -88,45 +88,45 @@ TEST_CASE("Word is not queryable if less than a specific size") {
 // ------------- Tests for Line ----------------
 
 // // Test null case for contains() first - here, an empty line
-// TEST_CASE("Empty line cannot find word") {
-//     auto line = Line{""};
-//     CHECK_FALSE(line.contains(Word{"hello"}));
-// }
+TEST_CASE("Empty line cannot find word") {
+     auto line = Line{""};
+     CHECK_FALSE(line.contains(Word{"hello"}));
+ }
 
-// TEST_CASE("Line containing a single word finds that word") {
-// 	auto line = Line{"Stop"};
-// 	CHECK(line.contains(Word{"Stop"}));
-// }
+ TEST_CASE("Line containing a single word finds that word") {
+ 	auto line = Line{"Stop"};
+ 	CHECK(line.contains(Word{"Stop"}));
+ }
 
 // // Test boundary conditions
-// TEST_CASE("Line can find first and last words") {
-// 	auto line = Line{"Walking on water and developing software from a specification are easy if both are frozen."};
-// 	CHECK(line.contains(Word{"Walking"}));
-// 	CHECK(line.contains(Word{"frozen"}));
-// }
+ TEST_CASE("Line can find first and last words") {
+ 	auto line = Line{"Walking on water and developing software from a specification are easy if both are frozen."};
+ 	CHECK(line.contains(Word{"Walking"}));
+ 	CHECK(line.contains(Word{"frozen"}));
+ }
 
 // // Test not only success scenarios but also failure scenarios.
-// TEST_CASE("Line cannot find word that it does not contain") {
-// 	auto line = Line{"I have always wished for my computer to be as easy to use as my telephone; my wish has come true because I can no longer figure out how to use my telephone."};
-// 	CHECK_FALSE(line.contains(Word{"cellphone"}));
-// }
+ TEST_CASE("Line cannot find word that it does not contain") {
+ 	auto line = Line{"I have always wished for my computer to be as easy to use as my telephone; my wish has come true because I can no longer figure out how to use my telephone."};
+ 	CHECK_FALSE(line.contains(Word{"cellphone"}));
+ }
 
-// TEST_CASE("Line finds words irrespective of case") {
-// 	auto line = Line{"You can stand on the shoulders of giants or a BIG enough pile of dwarfs, works either way."};
-// 	CHECK(line.contains(Word{"big"}));
-// 	CHECK(line.contains(Word{"STAND"}));
-// }
+ TEST_CASE("Line finds words irrespective of case") {
+ 	auto line = Line{"You can stand on the shoulders of giants or a BIG enough pile of dwarfs, works either way."};
+ 	CHECK(line.contains(Word{"big"}));
+ 	CHECK(line.contains(Word{"STAND"}));
+ }
 
-// TEST_CASE("Line finds words irrespective of surrounding punctuation") {
-// 	auto line = Line{"How can you tell if a person is a programmer? They use nested parentheses in normal writing (at least I do (sometimes))."};
-// 	CHECK(line.contains(Word{"programmer"}));
-// 	CHECK(line.contains(Word{"sometimes"}));
-// }
+ TEST_CASE("Line finds words irrespective of surrounding punctuation") {
+ 	auto line = Line{"How can you tell if a person is a programmer? They use nested parentheses in normal writing (at least I do (sometimes))."};
+ 	CHECK(line.contains(Word{"programmer"}));
+ 	CHECK(line.contains(Word{"sometimes"}));
+ }
 
-// TEST_CASE("Line cannot find non-queryable word that it contains") {
-//     auto line = Line{"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."};
-//     CHECK_FALSE(line.contains(Word{"a"}));
-// }
+ TEST_CASE("Line cannot find non-queryable word that it contains") {
+     auto line = Line{"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."};
+     CHECK_FALSE(line.contains(Word{"a"}));
+ }
 
 // ------------- Tests for Paragraph ----------------
 
