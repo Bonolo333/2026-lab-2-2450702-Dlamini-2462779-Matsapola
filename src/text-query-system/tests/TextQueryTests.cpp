@@ -132,32 +132,84 @@ TEST_CASE("Empty line cannot find word") {
 
 // TEST_CASE("Empty paragraph does not find a word") {
 // }
+//replaced
+TEST_CASE("Empty paragraph does not find a word") {
+	auto paragraph = Paragraph{};
+	auto [found, line_numbers] = paragraph.contains(Word{"hello"});
+
+	CHECK_FALSE(found);
+	CHECK(vector<int>{} == line_numbers);
+}
 
 // TEST_CASE("Paragraph does not find a word which is not present") {
 // }
+//replaced
+TEST_CASE("Paragraph does not find a word which is not present") {
+	auto paragraph = Paragraph{};
+	paragraph.addLine(Line{"Hello world"});
+
+	auto [found, line_numbers] = paragraph.contains(Word{"goodbye"});
+
+	CHECK_FALSE(found);
+	CHECK(vector<int>{} == line_numbers);
+}
 
 // TEST_CASE("Paragraph returns the line number of a word appearing once") {
 // }
+//replaced 
+TEST_CASE("Paragraph returns the line number of a word appearing once") {
+	auto paragraph = Paragraph{};
+	paragraph.addLine(Line{"Hello world"});
+	paragraph.addLine(Line{"This is another line"});
+
+	auto [found, line_numbers] = paragraph.contains(Word{"world"});
+
+	CHECK(found);
+	CHECK(vector<int>{1} == line_numbers);
+}
 
 // TEST_CASE("Paragraph returns the lines numbers of a word appearing in multiple lines") {
 // }
+//replaced
+TEST_CASE("Paragraph returns the lines numbers of a word appearing in multiple lines") {
+	auto paragraph = Paragraph{};
+	paragraph.addLine(Line{"Hello world"});
+	paragraph.addLine(Line{"The world is big"});
+	paragraph.addLine(Line{"Goodbye"});
+
+	auto [found, line_numbers] = paragraph.contains(Word{"world"});
+
+	CHECK(found);
+	CHECK(vector<int>{1, 2} == line_numbers);
+}
 
 // TEST_CASE("Line numbers returned account for an empty first line") {
 //     // If the first line of the paragraph is empty, and the word being searched for
 //     // is on the second line, the vector returned should be: [2]
 // }
+//replaced
+TEST_CASE("Line numbers returned account for an empty first line") {
+	auto paragraph = Paragraph{};
+	paragraph.addLine(Line{""});
+	paragraph.addLine(Line{"Hello world"});
+
+	auto [found, line_numbers] = paragraph.contains(Word{"world"});
+
+	CHECK(found);
+	CHECK(vector<int>{2} == line_numbers);
+}
 
 // // Integration test - Paragraph and FileReader are tested together,
 // // and FileReader touches the file system, an external dependency
-// TEST_CASE("File can be read into Paragraph and successfully searched") {
-// 	// make sure that alice.txt is in the right location for this to work!
-// 	// it must be in the same directory as the executable
-// 	auto filereader = FileReader{"alice.txt"};
-// 	auto paragraph = Paragraph{};
-// 	filereader.readFileInto(paragraph);
+ TEST_CASE("File can be read into Paragraph and successfully searched") {
+ 	// make sure that alice.txt is in the right location for this to work!
+ 	// it must be in the same directory as the executable
+ 	auto filereader = FileReader{"alice.txt"};
+ 	auto paragraph = Paragraph{};
+ 	filereader.readFileInto(paragraph);
 
-// 	auto[found, line_numbers] = paragraph.contains(Word{"Daddy"});
+ 	auto[found, line_numbers] = paragraph.contains(Word{"Daddy"});
 
-// 	CHECK(found);
-// 	CHECK(vector<int>{1,4,6} == line_numbers);
-// }
+ 	CHECK(found);
+ 	CHECK(vector<int>{1,4,6} == line_numbers);
+ }
