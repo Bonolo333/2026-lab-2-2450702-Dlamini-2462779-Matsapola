@@ -17,9 +17,8 @@ public:
 	bool contains(const Word& search_word) const;
 
 private:
-vector<Word> words_;
-
+	// A Line is modelled as a collection of the (valid) Words it contains
+	vector<Word> words_;
 };
 
 #endif
-
