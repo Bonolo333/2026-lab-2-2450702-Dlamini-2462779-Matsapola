@@ -20,9 +20,9 @@ public:
 	tuple<bool, vector<int>> contains(const Word& search_word) const;
 
 private:
-vector<Line> lines_;
-
+	// A Paragraph is modelled as a collection of Lines, in the order they
+	// were added.
+	vector<Line> lines_;
 };
 
 #endif
-

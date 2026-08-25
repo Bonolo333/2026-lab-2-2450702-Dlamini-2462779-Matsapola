@@ -2,21 +2,6 @@
 //					Paragraph
 // -------------------------------------------
 
-//#include "Paragraph.h"
-
-//void Paragraph::addLine(const Line& line)
-//{
-//}
-
-//tuple<bool, vector<int>> Paragraph::contains(const Word& search_word) const
-//{
-//	return {false, vector<int>{}};
-//}
-//replaced
-// -------------------------------------------
-//					Paragraph
-// -------------------------------------------
-
 #include "Paragraph.h"
 
 void Paragraph::addLine(const Line& line)
@@ -26,12 +11,16 @@ void Paragraph::addLine(const Line& line)
 
 tuple<bool, vector<int>> Paragraph::contains(const Word& search_word) const
 {
-	vector<int> line_numbers;
+	auto line_numbers = vector<int>{};
 
-	for (int i = 0; i < lines_.size(); i++)
-	{
-		if (lines_[i].contains(search_word))
-			line_numbers.push_back(i + 1);
+	// Line numbers are 1-indexed (as shown in the sample program output),
+	// so we track our own counter rather than using the loop index.
+	auto line_number = 1;
+	for (const auto& line : lines_) {
+		if (line.contains(search_word)) {
+			line_numbers.push_back(line_number);
+		}
+		++line_number;
 	}
 
 	return {!line_numbers.empty(), line_numbers};
