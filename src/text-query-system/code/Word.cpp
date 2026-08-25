@@ -6,85 +6,42 @@
 #include <algorithm>
 #include <cctype>
 
-
-//Word::Word(const string& word): word_{word}
-//{
-	// throws an exception (in the form of WordContainsNoLetters object)
-	// indicating that the word being constructed contains no letters
-//	if (word_.empty()) throw WordContainsNoLetters{};
-
-	// Note, we will cover exceptions in more detail later on in the course.
-//}
-// constructor replaced 1st time
-//Word::Word(const string& word): word_{word}
-//{
-//	auto letter = find_if(word_.begin(), word_.end(), [](char c) {
-//		return isalpha(static_cast<unsigned char>(c));
-//	});
-
-//	if (letter == word_.end())
-//		throw WordContainsNoLetters{};
-//}
-// contstructor replaced 2nd time 
-Word::Word(const string& word): word_{word}
+Word::Word(const string& word)
 {
-	auto letter = find_if(word_.begin(), word_.end(), [](char c) {
-		return isalpha(static_cast<unsigned char>(c));
-	});
+	// A word cannot contain a space - check this BEFORE stripping punctuation,
+	// since a space is not punctuation and would otherwise be lost.
+	if (word.find(' ') != string::npos) throw WordContainsSpace{};
 
-	if (letter == word_.end())
-		throw WordContainsNoLetters{};
+	// Make a working copy and strip out all punctuation characters.
+	auto cleaned = word;
+	cleaned.erase(remove_if(cleaned.begin(), cleaned.end(),
+		[](unsigned char c) { return ispunct(c); }), cleaned.end());
 
-	auto space = find(word_.begin(), word_.end(), ' ');
+	// If nothing is left after removing punctuation, the word contained no
+	// letters (e.g. it consisted solely of punctuation, or was empty to
+	// begin with).
+	if (cleaned.empty()) throw WordContainsNoLetters{};
 
-	if (space != word_.end())
-		throw WordContainsSpace{};
+	// Store the word in lowercase. This means operator== (below) and
+	// isQueryable() automatically become case-insensitive, since they just
+	// compare/measure this normalised form.
+	transform(cleaned.begin(), cleaned.end(), cleaned.begin(),
+		[](unsigned char c) { return tolower(c); });
+
+	word_ = cleaned;
 }
+
 // overloads the equivalence operator which allows to Words to be compared using ==
-//bool Word::operator==(const Word& rhs) const
-//{
-//	if (word_ == rhs.word_)
-//		return true;
-//	else
-//		return false;
-//}
-// replaced operator
-//bool Word::operator==(const Word& rhs) const
-//{
-//	string lhs = word_;
-//	string rhsWord = rhs.word_;
-
-//	transform(lhs.begin(), lhs.end(), lhs.begin(), ::tolower);
-//	transform(rhsWord.begin(), rhsWord.end(), rhsWord.begin(), ::tolower);
-
-//	return lhs == rhsWord;
-//}
-// replaced operator 2nd time
- bool Word::operator==(const Word& rhs) const
+bool Word::operator==(const Word& rhs) const
 {
-	string lhs;
-	string rhsWord;
-
-	for (char c : word_) {
-		if (isalpha(static_cast<unsigned char>(c))) {
-			lhs += static_cast<char>(tolower(static_cast<unsigned char>(c)));
-		}
-	}
-
-	for (char c : rhs.word_) {
-		if (isalpha(static_cast<unsigned char>(c))) {
-			rhsWord += static_cast<char>(tolower(static_cast<unsigned char>(c)));
-		}
-	}
-
-	return lhs == rhsWord;
+	if (word_ == rhs.word_)
+		return true;
+	else
+		return false;
 }
-//bool Word::isQueryable() const
-//{
-//	return false;
-//}
-// bool replaced 
+
 bool Word::isQueryable() const
 {
+	// Words having less than 3 letters cannot be queried
 	return word_.size() >= 3;
 }
